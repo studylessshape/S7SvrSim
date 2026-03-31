@@ -1,4 +1,4 @@
-﻿using ReactiveUI.Fody.Helpers;
+using ReactiveUI.Fody.Helpers;
 using S7Svr.Simulator.ViewModels;
 using S7SvrSim.S7Signal;
 using S7SvrSim.Services;
@@ -94,15 +94,19 @@ namespace S7SvrSim.ViewModels
         {
             while (!token.IsCancellationRequested)
             {
-                signalsHelper.RefreshValue(signals.Signals.Where(s =>
+                if (signals.Signals is not null && signals.Signals.Count > 0)
                 {
-                    if (signalAddressUesd.TryGetAddressUsed(s.Value, out var addressUsed))
+                    signalsHelper.RefreshValue(signals.Signals.Where(s =>
                     {
-                        var config = runningVM.AreaConfigs.FirstOrDefault(ac => (ac.AreaKind == AreaKind.MB && s.Value.Address?.AreaKind == AreaKind.MB) || (ac.AreaKind == AreaKind.DB && s.Value.Address?.AreaKind == AreaKind.DB && ac.BlockNumber == s.Value.Address?.DbIndex));
-                        return config != null && config.BlockSize > (s.Value.Address?.Index + addressUsed.IndexSize);
-                    }
-                    return false;
-                }).Select(s => s.Value));
+                        if (signalAddressUesd.TryGetAddressUsed(s.Value, out var addressUsed))
+                        {
+                            var config = runningVM.AreaConfigs.FirstOrDefault(ac => (ac.AreaKind == AreaKind.MB && s.Value.Address?.AreaKind == AreaKind.MB) || (ac.AreaKind == AreaKind.DB && s.Value.Address?.AreaKind == AreaKind.DB && ac.BlockNumber == s.Value.Address?.DbIndex));
+                            return config != null && config.BlockSize > (s.Value.Address?.Index + addressUsed.IndexSize);
+                        }
+                        return false;
+                    }).Select(s => s.Value));
+                }
+
                 await Task.Delay(TimeSpan.FromMilliseconds(ScanSpan >= 0 ? ScanSpan : 50), token);
             }
         }
