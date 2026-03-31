@@ -29,6 +29,7 @@ NUGET
       System.Text.Encoding.CodePages (>= 4.6) - restriction: || (&& (== net6.0-windows10.0.17763.0) (< netcoreapp3.1)) (== netstandard2.0) (== netstandard2.1)
     IronPython.StdLib (3.4.1)
       IronPython (>= 3.4 < 3.5)
+    Less.Utils.WPF (1.0.2)
     MaterialDesignColors (2.1.1) - restriction: || (== net6.0-windows10.0.17763.0) (&& (== netstandard2.0) (>= net452)) (&& (== netstandard2.0) (>= netcoreapp3.1)) (&& (== netstandard2.1) (>= net452)) (&& (== netstandard2.1) (>= netcoreapp3.1))
     MaterialDesignThemes (4.3)
       MaterialDesignColors (>= 2.0.4 < 3.0) - restriction: || (== net6.0-windows10.0.17763.0) (&& (== netstandard2.0) (>= net452)) (&& (== netstandard2.0) (>= netcoreapp3.1)) (&& (== netstandard2.1) (>= net452)) (&& (== netstandard2.1) (>= netcoreapp3.1))
@@ -404,5 +405,3 @@ NUGET
   remote: https://baget.stdunit.com/v3/index.json
     FutureTech.Snap7 (0.4.3)
       FSharp.Core (>= 4.7.2)
-  remote: https://git.studylessshape.fun/api/packages/studylessshape/nuget/index.json
-    Less.Utils.WPF (1.0.2)
