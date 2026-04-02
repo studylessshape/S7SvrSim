@@ -1,4 +1,4 @@
-﻿using DynamicData;
+using DynamicData;
 using ReactiveUI.Fody.Helpers;
 using S7SvrSim.Messages;
 using S7SvrSim.S7Signal;
@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Windows.UI.Accessibility;
 
 namespace S7SvrSim.ViewModels.Signals
 {
@@ -239,8 +240,11 @@ namespace S7SvrSim.ViewModels.Signals
 
             if (viewModel == null) return;
 
-            var setWindow = new SetSignalValueWindow() { ViewModel = viewModel };
-
+            var setWindow = new SetSignalValueWindow
+            {
+                ViewModel = viewModel,
+                Owner = Application.Current.MainWindow
+            };
             setWindow.ShowDialog();
         }
 
