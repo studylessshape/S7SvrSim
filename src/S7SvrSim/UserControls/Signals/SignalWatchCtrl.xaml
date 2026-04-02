@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="S7SvrSim.UserControls.SignalWatchCtrl"
+<UserControl x:Class="S7SvrSim.UserControls.SignalWatchCtrl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -60,16 +60,6 @@
                      StaysOpen="True"
                      Closed="SignalGridContextMenu_Closed"
                      >
-            <MenuItem Header="新建信号"
-                      ItemsSource="{Binding SignalTypes}"
-                      ItemContainerStyle="{StaticResource NewSignalMenuItemStyle}"
-                      />
-            <MenuItem Header="插入信号"
-                      ItemsSource="{Binding SignalTypes}"
-                      ToolTip="在当前选择的信号前插入新的信号"
-                      ItemContainerStyle="{StaticResource InsertSignalMenuItemStyle}"
-                      />
-            <Separator />
             <MenuItem Header="复制"
                       Command="{Binding Signals.CopySignalsCommand}"
                       />
@@ -198,6 +188,25 @@
                     </MenuItem>
                 </MenuItem>
             </Menu>
+            <ToolBarTray>
+                <ToolBar ItemsSource="{Binding SignalTypes}">
+                    <ToolBar.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                                Command="{Binding Source={StaticResource DataContextProxy}, Path=Data.Signals.InsertSignalCommand}"
+                                CommandParameter="{Binding Type}"
+                                Content="{Binding Name}"
+                                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                                <Button.ToolTip>
+                                    <ToolTip
+                                        Content="{Binding Name}"
+                                        ContentStringFormat="创建 {0} 信号" />
+                                </Button.ToolTip>
+                            </Button>
+                        </DataTemplate>
+                    </ToolBar.ItemTemplate>
+                </ToolBar>
+            </ToolBarTray>
             <StackPanel Orientation="Horizontal"
                         Margin="5 5"
                         >
