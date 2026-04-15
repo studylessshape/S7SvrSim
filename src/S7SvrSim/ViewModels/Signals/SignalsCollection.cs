@@ -204,6 +204,10 @@ namespace S7SvrSim.ViewModels.Signals
             if (oldName == newName) return;
 
             sg.Name = newName;
+            if (oldName == GroupName)
+            {
+                GroupName = newName;
+            }
         }
 
         private async Task CopyGroup(SignalEditGroup sg)
@@ -214,7 +218,8 @@ namespace S7SvrSim.ViewModels.Signals
             if (renameResult.IsCancel || string.IsNullOrEmpty(renameResult.Result)) return;
 
             // 对组内每个信号进行深拷贝
-            var copiedSignals = sg.Signals.Select(s => {
+            var copiedSignals = sg.Signals.Select(s =>
+            {
                 return new SignalEditObj(s.SignalType, s.Value.Name, s.Value.FormatAddress, s.Value.Remark);
             });
             var newSg = new SignalEditGroup(renameResult.Result, copiedSignals);
