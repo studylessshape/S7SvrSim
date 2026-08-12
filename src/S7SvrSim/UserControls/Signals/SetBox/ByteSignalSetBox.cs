@@ -1,4 +1,4 @@
-﻿using S7SvrSim.ViewModels.Signals.SetBoxVM;
+using S7SvrSim.ViewModels.Signals.SetBoxVM;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,7 +32,8 @@ namespace S7SvrSim.UserControls.Signals.SetBox
 
         protected override void OnGotFocus(RoutedEventArgs e)
         {
-            FocusManager.SetFocusedElement(this, PART_ValueBox);
+            Keyboard.Focus(PART_ValueBox);
+            PART_ValueBox.SelectAll();
         }
 
         public ByteSignalSetBoxVM ViewModel { get => (ByteSignalSetBoxVM)GetValue(ViewModelProperty); set => SetValue(ViewModelProperty, value); }

@@ -1,4 +1,4 @@
-﻿using S7SvrSim.Shared;
+using S7SvrSim.Shared;
 using S7SvrSim.ViewModels.Signals.SetBoxVM;
 using Splat;
 using System;
@@ -52,12 +52,16 @@ namespace S7SvrSim.UserControls.Signals
                 }
 
                 viewModelHost.Content = viewLocator.ResolveView(ViewModel);
-                if (viewModelHost.Content is UIElement box)
-                {
-                    FocusManager.SetFocusedElement(this, box);
-                }
 
                 this.OneWayBind(ViewModel, vm => vm.SetValueCmd, v => v.btnOk.Command).DisposeWith(d);
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    if (viewModelHost.Content is UIElement box)
+                    {
+                        FocusManager.SetFocusedElement(this, box);
+                    }
+                });
             });
         }
 
@@ -82,8 +86,6 @@ namespace S7SvrSim.UserControls.Signals
             Top = point.Y;
 
             Opacity = 100;
-
-            FocusManager.SetFocusedElement(this, viewModelHost);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -100,6 +102,11 @@ namespace S7SvrSim.UserControls.Signals
         private void CloseCommand_Execute(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

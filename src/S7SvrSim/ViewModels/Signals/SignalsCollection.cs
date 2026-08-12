@@ -1,4 +1,4 @@
-﻿using DynamicData;
+using DynamicData;
 using ReactiveUI.Fody.Helpers;
 using S7SvrSim.Messages;
 using S7SvrSim.S7Signal;
@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Windows.UI.Accessibility;
 
 namespace S7SvrSim.ViewModels.Signals
 {
@@ -203,6 +204,10 @@ namespace S7SvrSim.ViewModels.Signals
             if (oldName == newName) return;
 
             sg.Name = newName;
+            if (oldName == GroupName)
+            {
+                GroupName = newName;
+            }
         }
 
         private async Task CopyGroup(SignalEditGroup sg)
@@ -213,7 +218,8 @@ namespace S7SvrSim.ViewModels.Signals
             if (renameResult.IsCancel || string.IsNullOrEmpty(renameResult.Result)) return;
 
             // 对组内每个信号进行深拷贝
-            var copiedSignals = sg.Signals.Select(s => {
+            var copiedSignals = sg.Signals.Select(s =>
+            {
                 return new SignalEditObj(s.SignalType, s.Value.Name, s.Value.FormatAddress, s.Value.Remark);
             });
             var newSg = new SignalEditGroup(renameResult.Result, copiedSignals);
@@ -239,8 +245,11 @@ namespace S7SvrSim.ViewModels.Signals
 
             if (viewModel == null) return;
 
-            var setWindow = new SetSignalValueWindow() { ViewModel = viewModel };
-
+            var setWindow = new SetSignalValueWindow
+            {
+                ViewModel = viewModel,
+                Owner = Application.Current.MainWindow
+            };
             setWindow.ShowDialog();
         }
 
